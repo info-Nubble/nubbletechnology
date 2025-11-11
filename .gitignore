@@ -17,3 +17,7 @@ Thumbs.db
 # Backups/zips
 backup/
 *.zip
+.vercel
+
+# Local archives
+_archive/
