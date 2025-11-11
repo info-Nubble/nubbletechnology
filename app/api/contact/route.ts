@@ -64,12 +64,13 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: "Nubble Technology <notify@nubbletechnology.com>",
-      to: ["info@nubbletechnology.com"],
-      subject,
-      html,
-      reply_to: body.email,
-    });
+  from,
+  to,
+  subject,
+  html,
+  replyTo: body.email,    // ✅ correct key
+});
+
 
     return NextResponse.json({ ok: true });
   } catch (e) {
