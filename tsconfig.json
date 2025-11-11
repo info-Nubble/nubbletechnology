@@ -33,3 +33,5 @@
     "node_modules"
   ]
 }
+
+/* ensure exclude: _archive, **/_archive/** */
