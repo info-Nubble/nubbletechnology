@@ -84,6 +84,7 @@ export default function Page() {
                 <span className="text-xs uppercase tracking-wide">Trusted by</span>
                 <ul className="flex flex-wrap items-center gap-5 opacity-90">
                   <li className="text-sm">Milburry LLC</li>
+                  <li className="text-sm">Seacoast Walk N Roll</li>
                   <li className="text-sm">SMB Platform Partners</li>
                 </ul>
               </div>
@@ -192,7 +193,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Hospitality & Small Business */}
+      {/* NEW: Hospitality & Small Business (inserted after Services) */}
       <section className="border-t border-neutral-900 bg-neutral-950">
         <div className="container py-16 md:py-20 reveal">
           <h2 className="h2 text-glow">Hospitality &amp; Small Business Networking</h2>
@@ -264,6 +265,10 @@ export default function Page() {
               blurb="Maintained and upgraded UniFi Wi-Fi across 5 properties (37 APs). Improved coverage, roaming, and management visibility."
             />
             <CaseStudyCard
+              title="Seacoast Walk N Roll — Website Rebuild"
+              blurb="Complete redesign & rebuild of seacoastwalknroll.com with cleaner IA, faster load times, and ADA-minded components."
+            />
+            <CaseStudyCard
               title="SMB Web Platform Accelerator"
               blurb="Reusable Next.js/Tailwind starter with SEO, forms, and CI/CD for rapid SMB launches."
             />
@@ -278,6 +283,11 @@ export default function Page() {
             quote="(Client quote pending) The UniFi network across our 5 properties is faster and finally stable."
             name="Milburry LLC"
             role="Facilities / IT"
+          />
+          <Testimonial
+            quote="(Client quote pending) Our redesigned site is clean, modern, and easier for customers to use."
+            name="Seacoast Walk N Roll"
+            role="Owner"
           />
           <Testimonial
             quote="Working with a veteran-owned partner who communicates clearly made delivery smooth."
