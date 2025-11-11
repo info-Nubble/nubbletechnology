@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand1: 16 185 129; /* emerald-500 */
+  --brand2: 34 211 238; /* cyan-400 */
+}
+
+html { scroll-behavior: smooth; }
+body { @apply bg-neutral-950 text-neutral-50 antialiased; }
+
+a { @apply hover:underline; }
+.container { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+
+/* === Universal glowing cards === */
+.card {
+  @apply relative rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 transition-all duration-300;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(16,185,129,0.35), rgba(34,211,238,0.35));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.25;
+  transition: opacity 0.4s, box-shadow 0.4s, transform 0.4s;
+}
+.card:hover::before {
+  opacity: 0.9;
+  box-shadow: 0 0 25px 8px rgba(16,185,129,0.25),
+              0 0 50px 18px rgba(34,211,238,0.2);
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* === Button + layout styles === */
+.btn { @apply inline-flex items-center rounded-2xl px-5 py-3 font-medium; }
+.btn-primary { @apply bg-emerald-500 text-neutral-900 hover:brightness-110 shadow-lg shadow-emerald-500/20; }
+.btn-outline { @apply border border-neutral-700 hover:border-neutral-500; }
+.btn-ghost { @apply inline-flex items-center rounded-2xl px-5 py-3 font-medium border border-neutral-700 hover:border-neutral-500; }
+
+.badge { @apply inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-emerald-300 text-xs; }
+.small { @apply text-neutral-400 text-sm; }
+.h1 { @apply text-5xl md:text-6xl font-extrabold leading-tight tracking-tight; }
+.h2 { @apply text-3xl font-bold tracking-tight; }
+
+/* === Hero background glow === */
+.hero-bg {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(16,185,129,0.20), transparent 70%),
+    radial-gradient(1000px 500px at 85% -20%, rgba(34,211,238,0.12), transparent 70%);
+}
+
+/* === Million-dollar polish === */
+.text-glow {
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.6),
+    0 6px 30px rgba(16,185,129,.25),
+    0 10px 50px rgba(34,211,238,.15);
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: revealUp .6s ease-out both; }
+
+.glass {
+  background: linear-gradient(180deg, rgba(16,185,129,.05), rgba(34,211,238,.05));
+  border: 1px solid rgba(120,120,120,.18);
+  backdrop-filter: blur(6px);
+}
+
+.gradient-border { position: relative; }
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  z-index: 0;
+  background: conic-gradient(
+    from 180deg,
+    rgba(16,185,129,.35),
+    rgba(34,211,238,.25),
+    transparent 60%
+  );
+  filter: blur(6px);
+  opacity: .45;
+}
+.gradient-border > * { position: relative; z-index: 1; }
+
+/* === Optional body ambient glow === */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at 70% 20%,
+    rgba(16,185,129,0.08),
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+}

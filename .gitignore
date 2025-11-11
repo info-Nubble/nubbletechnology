@@ -1,0 +1,19 @@
+# Node/Next
+node_modules/
+.next/
+.vercel/
+dist/
+out/
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+*.log
+
+# Local env
+.env*
+!.env.example
+
+# Backups/zips
+backup/
+*.zip

@@ -1,0 +1,380 @@
+import { useEffect } from "react";
+import { CheckCircle, Hammer, Home, Layers, Mail, MapPin, Phone, Shield, Star, Wrench } from "lucide-react";
+
+// ---- NOTES -------------------------------------------------------------
+// • Drop this component into a Next.js 14/15 app at app/page.tsx (or pages/index.tsx)
+// • TailwindCSS required. If you don't have it, run: npx tailwindcss init -p
+//   and wire up globals.css. Uses default Tailwind palette for easy portability.
+// • Replace CONTACT_EMAIL if/when you want form-to-email; today we use tel: & mailto:.
+// • Business details pulled from public listings (phone/address). Update anytime.
+// • Add your real photos into /public/ (hero.jpg, gallery-*.jpg) and swap src paths.
+// ------------------------------------------------------------------------
+
+const BUSINESS_NAME = "Sky High Roofing & General Contracting";
+const CITY = "York";
+const STATE = "Maine";
+const PHONE = "+1 (207) 451-3163"; // Source: public business listings
+const PHONE_RAW = "+12074513163";   // for tel:
+const ADDRESS = "3 Smalls Way, York, ME 03909"; // Source: public business listings
+const CONTACT_EMAIL = ""; // optional: e.g., info@skyhighroofing.com
+
+export default function SkyHighSite() {
+  useEffect(() => {
+    // Smooth scroll for in-page anchors
+    const handler = (e: Event) => {
+      const el = e.target as HTMLAnchorElement;
+      if (el?.matches('a[href^="#"]')) {
+        const id = el.getAttribute("href")?.slice(1);
+        const target = id ? document.getElementById(id) : null;
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-neutral-50 text-neutral-900">
+      <Header />
+      <Hero />
+      <TrustBar />
+      <Services />
+      <PromoCTA />
+      <FeaturedProjects />
+      <Reviews />
+      <ServiceArea />
+      <Contact />
+      <Footer />
+      <JsonLd />
+    </main>
+  );
+}
+
+function Container({ children }: { children: React.ReactNode }) {
+  return <div className="mx-auto w-full max-w-7xl px-6 md:px-8">{children}</div>;
+}
+
+function Header() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur">
+      <Container>
+        <div className="flex h-16 items-center justify-between">
+          <a href="#top" className="flex items-center gap-2">
+            <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3l8 6-8 5-8-5 8-6Z" className="fill-black/80" />
+              <path d="M4 9v7l8 5 8-5V9" className="fill-black/10" />
+            </svg>
+            <span className="font-semibold tracking-tight">{BUSINESS_NAME}</span>
+          </a>
+          <nav className="hidden items-center gap-6 md:flex">
+            <a className="hover:opacity-80" href="#services">Services</a>
+            <a className="hover:opacity-80" href="#projects">Projects</a>
+            <a className="hover:opacity-80" href="#reviews">Reviews</a>
+            <a className="hover:opacity-80" href="#areas">Service Area</a>
+            <a className="hover:opacity-80" href="#contact">Contact</a>
+          </nav>
+          <div className="flex items-center gap-3">
+            <a href={`tel:${PHONE_RAW}`} className="hidden rounded-xl border border-neutral-300 px-3 py-2 text-sm font-medium shadow-sm hover:bg-neutral-100 md:block">Call {PHONE.replace("+1 ", "")}</a>
+            <a href="#contact" className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/90">Free Estimate</a>
+          </div>
+        </div>
+      </Container>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative isolate overflow-hidden bg-gradient-to-b from-neutral-900 via-neutral-800 to-neutral-900 text-white">
+      <div className="pointer-events-none absolute inset-0 opacity-20 [background:radial-gradient(1000px_600px_at_20%_-10%,white,transparent)]" />
+      <Container>
+        <div className="grid min-h-[60vh] grid-cols-1 items-center gap-10 py-16 md:grid-cols-2 md:py-24">
+          <div>
+            <p className="text-sm uppercase tracking-widest text-white/70">{CITY}, {STATE} • Residential & Light Commercial</p>
+            <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">High‑quality roofing, done right the first time.</h1>
+            <p className="mt-4 max-w-xl text-white/80">From storm‑tight shingle replacements to leak repairs and full tear‑offs, {BUSINESS_NAME} protects Seacoast homes with craftsmanship you can trust.</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href={`tel:${PHONE_RAW}`} className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 font-semibold text-neutral-900 shadow-sm hover:bg-neutral-100">
+                <Phone className="h-5 w-5" /> Call {PHONE.replace("+1 ", "")}
+              </a>
+              <a href="#contact" className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 font-semibold text-white hover:bg-white/10">
+                <Mail className="h-5 w-5" /> Request a Free Estimate
+              </a>
+            </div>
+            <ul className="mt-6 grid max-w-lg grid-cols-1 gap-2 text-sm text-white/80 md:grid-cols-2">
+              {[
+                "Licensed & insured",
+                "CertainTeed shingle expertise",
+                "Ice & water shield"
+              ].map((t) => (
+                <li className="flex items-center gap-2" key={t}><CheckCircle className="h-4 w-4" /> {t}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="relative">
+            <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl">
+              {/* Swap to /hero.jpg with a real project photo */}
+              <div className="h-full w-full bg-[url('/hero.jpg')] bg-cover bg-center" />
+            </div>
+            <div className="absolute -right-3 -top-3 rounded-full bg-white/10 px-3 py-1 text-xs backdrop-blur">Family‑run • Local pros</div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function TrustBar() {
+  return (
+    <section className="border-b border-neutral-200 bg-white py-8">
+      <Container>
+        <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
+          {[
+            { icon: Shield, text: "Licensed & Insured" },
+            { icon: Star, text: "5★ Local Reviews" },
+            { icon: Layers, text: "Grace Ice & Water Shield" },
+            { icon: Hammer, text: "Stainless Nails • Hand‑sealed" },
+          ].map(({ icon: Icon, text }) => (
+            <div key={text} className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3">
+              <Icon className="h-5 w-5" />
+              <span className="font-medium">{text}</span>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function Services() {
+  const items = [
+    {
+      title: "Roof Replacement",
+      desc: "Tear‑offs & re‑roofs using premium shingles installed to spec.",
+      icon: Home,
+      bullets: ["CertainTeed Landmark / Grand Manor", "Starter, underlayment, ridge vent", "Warranty‑backed installs"],
+    },
+    {
+      title: "Roof Repair & Leaks",
+      desc: "Emergency patches, pipe boots, flashing, storm damage.",
+      icon: Wrench,
+      bullets: ["Ice dams & wind lift", "Chimney & valley flashing", "Skylight leaks"],
+    },
+    {
+      title: "Metal & Flat Roofing",
+      desc: "Standing‑seam metal and EPDM/modified bitumen for select projects.",
+      icon: Layers,
+      bullets: ["Metal accents & porches", "Low‑slope solutions", "Snow‑belt detailing"],
+    },
+  ];
+
+  return (
+    <section id="services" className="py-16 md:py-24">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Roofing services built for Maine weather</h2>
+          <p className="mt-3 text-neutral-600">Proper underlayment, ventilation and materials—installed by a crew that treats your home like their own.</p>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {items.map((s) => (
+            <div key={s.title} className="group relative rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+              <s.icon className="h-6 w-6" />
+              <h3 className="mt-4 text-xl font-semibold">{s.title}</h3>
+              <p className="mt-2 text-sm text-neutral-600">{s.desc}</p>
+              <ul className="mt-4 space-y-2 text-sm text-neutral-700">
+                {s.bullets.map((b) => (
+                  <li key={b} className="flex items-start gap-2"><CheckCircle className="mt-0.5 h-4 w-4 flex-none" /> {b}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function PromoCTA() {
+  return (
+    <section className="relative isolate overflow-hidden rounded-none bg-neutral-900 py-12 text-white md:py-16">
+      <Container>
+        <div className="items-center justify-between gap-8 md:flex">
+          <div>
+            <h3 className="text-2xl font-bold tracking-tight">Need a roof estimate fast?</h3>
+            <p className="mt-2 text-white/80">Text photos of the front & back of your home and we’ll provide a ballpark same‑day.</p>
+          </div>
+          <div className="mt-6 flex gap-3 md:mt-0">
+            <a href={`tel:${PHONE_RAW}`} className="rounded-xl bg-white px-5 py-3 font-semibold text-neutral-900 shadow hover:bg-neutral-100"><Phone className="-mt-0.5 mr-2 inline h-5 w-5"/>Call Now</a>
+            <a href={`mailto:${CONTACT_EMAIL || ''}?subject=${encodeURIComponent('Roof Estimate Request – ' + BUSINESS_NAME)}&body=${encodeURIComponent('Hi Sky High Roofing,\n\nI would like an estimate. My address is: ')} `} className="rounded-xl border border-white/20 px-5 py-3 font-semibold hover:bg-white/10"><Mail className="-mt-0.5 mr-2 inline h-5 w-5"/>Email Photos</a>
+          </div>
+        </div>
+      </Container>
+      <div className="pointer-events-none absolute inset-0 opacity-30 [background:radial-gradient(600px_300px_at_80%_120%,white,transparent)]"/>
+    </section>
+  );
+}
+
+function FeaturedProjects() {
+  const cards = [
+    { title: "Grand Manor Designer Shingles", note: "Full Grace ice & water; stainless nails; hand‑sealed ridge.", src: "/gallery-1.jpg" },
+    { title: "York River Shingle Re‑roof", note: "Tear‑off, underlayment, ridge vent upgrade.", src: "/gallery-2.jpg" },
+    { title: "Kittery Point Roof", note: "Leak remediation, flashing & pipe boots.", src: "/gallery-3.jpg" },
+  ];
+
+  return (
+    <section id="projects" className="bg-neutral-50 py-16 md:py-24">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Recent projects</h2>
+          <p className="mt-3 text-neutral-600">A few of our local jobs around York & Kittery. Swap in your real photos for instant trust.</p>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {cards.map((c) => (
+            <article key={c.title} className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+              <div className="aspect-[4/3] w-full bg-neutral-200" style={{backgroundImage:`url(${c.src})`, backgroundSize:"cover", backgroundPosition:"center"}} />
+              <div className="p-5">
+                <h3 className="font-semibold">{c.title}</h3>
+                <p className="mt-1 text-sm text-neutral-600">{c.note}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function Reviews() {
+  const items = [
+    {
+      name: "Hanna F.",
+      quote:
+        "These guys are terrific—polite, professional, and they get the job done right. My new roof looks amazing!",
+    },
+    { name: "Rene M.", quote: "On time. Great work. Would recommend!" },
+  ];
+  return (
+    <section id="reviews" className="py-16 md:py-24">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">What neighbors are saying</h2>
+          <p className="mt-3 text-neutral-600">Real, local feedback about working with our crew.</p>
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {items.map((r) => (
+            <blockquote key={r.name} className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+              <Star className="h-5 w-5" />
+              <p className="mt-3 text-neutral-800">“{r.quote}”</p>
+              <footer className="mt-3 text-sm text-neutral-600">— {r.name}</footer>
+            </blockquote>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function ServiceArea() {
+  const areas = ["York", "Kittery", "Kittery Point", "Ogunquit", "Eliot", "South Berwick", "Wells", "Portsmouth NH"];
+  return (
+    <section id="areas" className="bg-neutral-900 py-16 text-white md:py-24">
+      <Container>
+        <div className="items-center gap-10 md:flex">
+          <div className="md:w-1/2">
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Proudly serving the Seacoast</h2>
+            <p className="mt-3 text-white/80">We’re based in York and work across Southern Maine and the NH Seacoast.</p>
+            <ul className="mt-4 grid grid-cols-2 gap-2 text-sm text-white/90 md:grid-cols-3">
+              {areas.map((a) => (
+                <li key={a} className="flex items-center gap-2"><MapPin className="h-4 w-4" /> {a}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-8 md:mt-0 md:w-1/2">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+              <div className="text-sm text-white/70">Shop:</div>
+              <div className="mt-1 font-medium">{ADDRESS}</div>
+              <div className="mt-3 text-sm text-white/70">Phone:</div>
+              <a href={`tel:${PHONE_RAW}`} className="mt-1 inline-block font-medium text-white underline underline-offset-4">{PHONE}</a>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function Contact() {
+  return (
+    <section id="contact" className="py-16 md:py-24">
+      <Container>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Get your free, no‑pressure estimate</h2>
+          <p className="mt-3 text-neutral-600">Call or email and we’ll schedule a quick on‑site visit.</p>
+        </div>
+        <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+          {/* Simple mailto form for now (no server). Swap to API or Formspark later */}
+          <form action={`mailto:${CONTACT_EMAIL || ''}`} method="post" encType="text/plain" className="grid grid-cols-1 gap-4">
+            <input required name="name" placeholder="Your name" className="rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900" />
+            <input required name="email" type="email" placeholder="Email" className="rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900" />
+            <input name="phone" placeholder="Phone (optional)" className="rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900" />
+            <textarea name="message" placeholder="Tell us about your roof" rows={4} className="rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900" />
+            <button type="submit" className="rounded-xl bg-black px-5 py-3 font-semibold text-white shadow hover:bg-black/90">Send Request</button>
+          </form>
+          <div className="mt-4 text-center text-sm text-neutral-600">
+            Prefer phone? <a href={`tel:${PHONE_RAW}`} className="font-medium text-neutral-900 underline underline-offset-4">Call {PHONE.replace("+1 ", "")}</a>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-neutral-200 bg-neutral-50 py-10">
+      <Container>
+        <div className="grid grid-cols-1 items-center justify-between gap-6 md:grid-cols-2">
+          <div>
+            <div className="font-semibold">{BUSINESS_NAME}</div>
+            <div className="mt-1 text-sm text-neutral-600">{ADDRESS}</div>
+            <a href={`tel:${PHONE_RAW}`} className="mt-1 inline-block text-sm text-neutral-900 underline underline-offset-4">{PHONE}</a>
+          </div>
+          <div className="text-sm text-neutral-600 md:text-right">
+            © {new Date().getFullYear()} {BUSINESS_NAME}. All rights reserved.
+          </div>
+        </div>
+      </Container>
+    </footer>
+  );
+}
+
+function JsonLd() {
+  const json = {
+    "@context": "https://schema.org",
+    "@type": "RoofingContractor",
+    name: BUSINESS_NAME,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "3 Smalls Way",
+      addressLocality: "York",
+      addressRegion: "ME",
+      postalCode: "03909",
+      addressCountry: "US",
+    },
+    telephone: PHONE,
+    areaServed: ["York", "Kittery", "Ogunquit", "Eliot", "South Berwick", "Wells", "Portsmouth NH"],
+    url: "https://example.com/", // swap to your domain when ready
+    sameAs: [
+      "https://www.facebook.com/skyhighgeneralcontracting"
+    ],
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }}
+    />
+  );
+}
