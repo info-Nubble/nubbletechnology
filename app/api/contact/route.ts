@@ -20,14 +20,13 @@ export async function POST(req: Request) {
     const to = process.env.TO_EMAIL || "info@nubbletechnology.com";
 
     const { error, data } = await resend.emails.send({
-      // After you verify your domain in Resend, use your domain here (e.g., info@nubbletechnology.com)
-      // Until then, you can temporarily use: "Nubble Technology <onboarding@resend.dev>"
-      from: "Nubble Technology <onboarding@resend.dev>",
-      to,
-      reply_to: email,
-      subject: `New contact from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    });
+  from: "Nubble Technology <onboarding@resend.dev>", // or your verified domain later
+  to,
+  replyTo: email, // <-- fix this line
+  subject: `New contact from ${name}`,
+  text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+});
+
 
     if (error) {
       console.error("CONTACT_ERROR", { message: error.message });
